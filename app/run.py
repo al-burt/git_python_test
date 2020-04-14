@@ -9,8 +9,6 @@ user_storage = {}
 def index():
     """
         Initial page to return on "/" path
-
-
         Example:
 
         curl localhost:9000/
