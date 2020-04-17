@@ -33,8 +33,8 @@ def index():
     })
 
 
-@app.route("/user/get/<int:id>", methods=["GET"])
-def get_by_id(id):
+@app.route("/user/get/<iser_id>", methods=["GET"])
+def get_by_id(iser_id):
     """
         URI to return data about the user for the given ID
 
@@ -43,23 +43,23 @@ def get_by_id(id):
             curl localhost:9000/user/get/231
 
 
-    :param id: user_id
+    :param iser_id: user_id
     :return:
     """
 
-    doc = collection.find_one({"id": id})
+    doc = collection.find_one({"id": iser_id})
 
     sanitized_doc = json.dumps(doc, default=str)
 
     return jsonify({
         "status": "ok",
-        "requested_id": id,
+        "requested_id": iser_id,
         "data": sanitized_doc
     })
 
 
-@app.route("/user/add/<int:id>", methods=["POST"])
-def add_by_id(id):
+@app.route("/user/add/<user_id>", methods=["POST"])
+def add_by_id(user_id):
     """
 
     Example:
@@ -67,13 +67,13 @@ def add_by_id(id):
 
         curl -X POST localhost:9000/user/add/231   -H "Content-Type: application/json"  --data '{"name": "Ivan"}'
 
-    :param id:
+    :param user_id:
     :return:
     """
 
     user_data = request.json or {}
 
-    user_data['id'] = id
+    user_data['id'] = user_id
 
     entry_id = collection.insert_one(user_data).inserted_id
 
