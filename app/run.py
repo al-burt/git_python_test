@@ -1,30 +1,19 @@
-import json
-
 import flask
 
 from flask import jsonify, request
-from pymongo import MongoClient
 
 from config import *
+from db import get_user_data_by_id, save_user_data_by_id
 
 app = flask.Flask(__name__)
-
-client = MongoClient(MONGODB_HOST, MONGODB_PORT)
-
-db = client[MONGODB_DB_NAME]
-collection = db[MONGODB_COLLECTION]
 
 
 @app.route("/")
 def index():
     """
         Initial page to return on "/" path
-
-
         Example:
-
         curl localhost:9000/
-
     :return:
     """
     return jsonify({
@@ -33,49 +22,37 @@ def index():
     })
 
 
-@app.route("/user/get/<iser_id>", methods=["GET"])
-def get_by_id(iser_id):
+@app.route("/user/get/<int:id>", methods=["GET"])
+def get_by_id(user_id):
     """
         URI to return data about the user for the given ID
-
         Example:
-
             curl localhost:9000/user/get/231
-
-
-    :param iser_id: user_id
+    :param user_id: user_id
     :return:
     """
 
-    doc = collection.find_one({"id": iser_id})
-
-    sanitized_doc = json.dumps(doc, default=str)
+    doc = get_user_data_by_id(user_id)
 
     return jsonify({
         "status": "ok",
-        "requested_id": iser_id,
-        "data": sanitized_doc
+        "requested_id": user_id,
+        "data": doc
     })
 
 
-@app.route("/user/add/<user_id>", methods=["POST"])
+@app.route("/user/add/<int:id>", methods=["POST"])
 def add_by_id(user_id):
     """
-
     Example:
-
-
         curl -X POST localhost:9000/user/add/231   -H "Content-Type: application/json"  --data '{"name": "Ivan"}'
-
     :param user_id:
     :return:
     """
 
     user_data = request.json or {}
 
-    user_data['id'] = user_id
-
-    entry_id = collection.insert_one(user_data).inserted_id
+    entry_id = save_user_data_by_id(user_id, user_data)
 
     return jsonify({
         "status": "ok",
