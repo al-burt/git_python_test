@@ -4,3 +4,9 @@ services:
     image: mongo:4.2.5-bionic
     ports:
     - 27017:27017
+  proxy:
+    image: nginx
+    ports:
+    - 9000:8080
+  app:
+    image: git_test:0.2.1
