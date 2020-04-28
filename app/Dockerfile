@@ -1,7 +1,12 @@
 #version 0.0.1 by mr.Burt
-FROM nginx
+FROM python:3
 MAINTAINER Albert Timerkhanov <berttimero@gmail.com>
 VOLUME git_test
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-EXPOSE 9000:9000
+ENV APP /app
+RUN mkdir $APP
+WORKDIR $APP
+EXPOSE 9000
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python","run.py"]
