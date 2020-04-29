@@ -1,5 +1,5 @@
 #version 0.2.1 by mr.Burt
-FROM python:3 as build-stage
+FROM python:3
 MAINTAINER Albert Timerkhanov <berttimero@gmail.com>
 
 COPY . /app
