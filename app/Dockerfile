@@ -1,7 +1,12 @@
-#version 0.0.1 by mr.Burt
-FROM nginx
+#version 0.2.1 by mr.Burt
+FROM python:3
 MAINTAINER Albert Timerkhanov <berttimero@gmail.com>
-VOLUME git_test
-COPY . /usr/src/app
-WORKDIR /usr/src/app
+
+COPY . /app
+WORKDIR /app
+
+RUN pip install -r requirements.txt
+
 EXPOSE 9000:9000
+
+ENTRYPOINT python run.py
