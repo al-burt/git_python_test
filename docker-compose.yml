@@ -2,15 +2,31 @@ version: "3"
 services:
   mongodb:
     image: mongo:4.2.5-bionic
-    ports:
-      - 27017:27017
+    networks:
+      - backend1
+#    ports:
+#      - 27017:27017
   backend:
-    image: git_python_test:0.2.1
-    ports:
-      - 9000:9000
+    build: ./app
+    image: gitpython111
+#    image: git_python_test:0.2.2
+    networks:
+      - backend1
+      - frontend1
+#    ports:
+#      - 9000:9000
+
   loadbalancer:
-    image: nginx
+    image: nginx:1.17.9-alpine
     ports:
       - 80:80
+    networks:
+      - frontend1
     volumes:
     - ./loadbalancer/nginx.conf:/etc/nginx/nginx.conf
+
+networks:
+  backend1:
+    driver: overlay
+  frontend1:
+    driver: overlay

@@ -1,4 +1,4 @@
-#version 0.2.1 by mr.Burt
+#version 0.2.2 by mr.Burt
 FROM python:3
 MAINTAINER Albert Timerkhanov <berttimero@gmail.com>
 

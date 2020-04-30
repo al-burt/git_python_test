@@ -1,4 +1,4 @@
-MONGODB_HOST = "localhost"
+MONGODB_HOST = "mongodb"
 MONGODB_PORT = 27017
 
 MONGODB_DB_NAME = "python-microservice"
